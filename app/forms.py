@@ -1,9 +1,8 @@
 """import necessary modules"""
-from app.models import User
-from wtforms.validators import BooleanField, SubmitField,\
-    TextAreaField, ValidationError
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
+from app.models import User
 
 
 class LoginForm(FlaskForm):

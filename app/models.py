@@ -18,18 +18,18 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
     def set_password(self, password):
-		"""setpassword"""
+        """setpassword"""
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-		"""checkpassword"""
+        """checkpassword"""
         return check_password_hash(self.password_hash, password)
 
 
 @login.user_loader
 def load_user(id):
-	"""loaduser"""
-	return User.query.get(int(id))
+    """loaduser"""
+    return User.query.get(int(id))
 
 
 class Post(db.Model):

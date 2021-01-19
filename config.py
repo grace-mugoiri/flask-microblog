@@ -11,3 +11,9 @@ class Config(object):
     # and if that isnt defined, configure a database named app.db located
     # in the main directory which is stored in basedir variable.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+	MAIL_SERVER = os.environ.get('MAIL_SERVER')
+	MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
+	MAIL_USE_TLS = os.environ('MAIL_USE_TLS') is not None
+	MAIL_USERNAAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+	ADMINS = ['mugoiri@example.com']

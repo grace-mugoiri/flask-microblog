@@ -1,7 +1,7 @@
 """import modules"""
 from flask import render_template, flash, redirect, url_for, request
-from app import app
-from app import db
+# from app import db
+import app
 from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from flask_login import current_user, login_user, login_required, logout_user
 from app.models import User
@@ -94,8 +94,8 @@ def before_request():
 @login_required
 def edit_profile():
     """profileediting"""
-    form = EditProfileForm()
-    if form.validate_on_submit(current_user.username):
+    form = EditProfileForm(current_user.username)
+    if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         db.session.commit()

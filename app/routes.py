@@ -95,7 +95,7 @@ def before_request():
 def edit_profile():
     """profileediting"""
     form = EditProfileForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit(current_user.username):
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         db.session.commit()

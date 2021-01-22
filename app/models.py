@@ -24,7 +24,6 @@ class User(UserMixin, db.Model):
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
 
-
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -46,7 +45,7 @@ class User(UserMixin, db.Model):
     def follow(self, user):
         """follow"""
         if not self.is_following(user):
-        	self.followed.append(user)
+            self.followed.append(user)
 
     def unfollow(self, user):
         """unfollowuser"""
@@ -60,12 +59,12 @@ class User(UserMixin, db.Model):
 
     def followed_posts(self):
         """followedpostsbyuser"""
-        followed =  Post.query.join(
+        followed = Post.query.join(
             followers, (followers.c.followed_id == Post.user_id)).filter(
                 followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
-        return followed.union(own).order_by(Post.timestamp.desc()
-        )
+        return followed.union(own).order_by(Post.timestamp.desc())
+
 
 @login.user_loader
 def load_user(id):
@@ -85,6 +84,7 @@ class Post(db.Model):
 
 
 followers = db.Table('followers',
-    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-	db.Column('followed_id', db.Integer, db.Foreignkey('user.id'))
-	)
+                     db.Column('follower_id',
+                               db.Integer, db.ForeignKey('user.id')),
+                     db.Column('followed_id',
+                               db.Integer, db.Foreignkey('user.id')))

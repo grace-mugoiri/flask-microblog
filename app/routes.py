@@ -9,7 +9,7 @@ from werkzeug.urls import url_parse
 from datetime import datetime
 from app.email import send_password_reset_email
 from flask_babel import get_locale
-
+from guess_language import guess_language
 
 @app.route('/')
 @app.route('/index')
@@ -18,6 +18,9 @@ def index():
     """index function"""
     form = PostForm()
     if form.validate_on_submit():
+        language = guess_language(form.post.data)
+        if language == "UNKWOWN" or len(language) > 5:
+            language = ''
         post = Post(body=form.post.data, author=current_user)
         db.session.add(post)
         db.session.commit()
@@ -215,5 +218,5 @@ def reset_password(token):
 
 @app.before_request
 def before_request():
-	"""beforerequest"""
-	g.locate = str(get_locale())
+    """beforerequest"""
+    g.locate = str(get_locale())

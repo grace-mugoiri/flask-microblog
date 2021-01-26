@@ -1,5 +1,5 @@
 """import modules"""
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import render_template, jsonify, flash, redirect, url_for, request, g
 from app import app,  db
 from app.forms import LoginForm, RegistrationForm, ResetPasswordRequestForm
 from app.forms import EditProfileForm, EmptyForm, PostForm, ResetPasswordForm
@@ -10,6 +10,7 @@ from datetime import datetime
 from app.email import send_password_reset_email
 from flask_babel import get_locale
 from guess_language import guess_language
+from app.translate import translate
 
 @app.route('/')
 @app.route('/index')
@@ -220,3 +221,16 @@ def reset_password(token):
 def before_request():
     """beforerequest"""
     g.locate = str(get_locale())
+
+
+@app.route('/translate', methods=["POST"])
+@login_required
+def translate_text():
+	"""translatetext"""
+	return jsonify({
+		'text': translate(
+			request.form['text'],
+			request.form['source_language'],
+			request.form['dest_languagae']
+		)
+	})

@@ -10,7 +10,6 @@ from flask_login import UserMixin
 from hashlib import md5
 
 
-
 class User(UserMixin, db.Model):
     """add class variables"""
     id = db.Column(db.Integer, primary_key=True)
@@ -72,7 +71,7 @@ class User(UserMixin, db.Model):
         """resetpasswordtoken"""
         return jwt.encode(
             {'reset_password': self.id,
-            'exp': time() + expires_in},
+             'exp': time() + expires_in},
             app.config['SECRET_KEY'], algorithm='HS256')
 
     @staticmethod
@@ -80,7 +79,7 @@ class User(UserMixin, db.Model):
         """verifytoken"""
         try:
             id = jwt.decode(token, app.config['SECRET_KEY'],
-            algorthms=['HS256'])['reset_password']
+                            algorthms=['HS256'])['reset_password']
         except:
             return
         return User.query.get(id)
